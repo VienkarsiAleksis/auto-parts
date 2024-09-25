@@ -12,8 +12,9 @@ class ScrapingController extends Controller
     public function saveScrapedData(Request $request)
     {
         try {
+            // Validate the incoming request
             $validated = $request->validate([
-                'search_param' => 'required|string',
+                'search_param' => 'required|string', 
                 'data' => 'required|json',
             ]);
 
@@ -24,13 +25,10 @@ class ScrapingController extends Controller
             ]);
 
             return response()->json(['message' => 'Data saved successfully'], 201);
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Log database-related errors
-            Log::error('Database error: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to save data', 'details' => $e->getMessage()], 500);
         } catch (\Exception $e) {
-            // Log general errors
+            // Log the error for debugging
             Log::error('Error saving scraped data: ' . $e->getMessage());
+
             return response()->json(['error' => 'Failed to save data', 'details' => $e->getMessage()], 500);
         }
     }
@@ -38,7 +36,6 @@ class ScrapingController extends Controller
 
     public function fetchData(Request $request)
     {
-        // Fetch the data from the database based on 'search_param'
         $searchParam = $request->query('search_param');
         $data = ScrapedData::where('search_param', $searchParam)->get();
 

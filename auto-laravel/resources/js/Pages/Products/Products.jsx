@@ -38,11 +38,6 @@ const ProductPage = ({ auth }) => {
                 await saveScrapedData(scrapedData, term); // Save scraped data
             }
 
-            // Call the scraper regardless to check for updates
-            await axios.get('http://localhost:6969/scrape', {
-                params: { q: term }
-            });
-
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -50,18 +45,16 @@ const ProductPage = ({ auth }) => {
 
     const saveScrapedData = async (searchTerm, scrapedData) => {
         try {
-            await axios.post('http://localhost:8000/api/save-scraped-data', {
-                search_param: scrapedData,  // Make sure this matches your backend
-                data: searchTerm,  // Convert scraped data to JSON string
+            const response = await axios.post('http://localhost:8000/api/save-scraped-data', {
+                search_param: scrapedData, // The search term the user entered
+                data: searchTerm, // The scraped data as a JSON string
             });
+            console.log('Data saved successfully:', response.data);
         } catch (error) {
             console.error('Error saving data:', error.response.data);
         }
-    };
+    };    
     
-    
-    
-
     const handleKeyDown = async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();

@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::any('/save-scraped-data', [ScrapingController::class, 'saveScrapedData']);
 Route::get('/fetch_data', [ScrapingController::class, 'fetchData']);
+
+Route::options('/{any}', function (Request $request) {
+    return response()->json();
+})->where('any', '.*');

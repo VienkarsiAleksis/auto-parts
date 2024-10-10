@@ -2,43 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ScrapedData;
+use App\Models\ScrapedDB;
+use App\Models\UserSearch;
 use Illuminate\Http\Request;
+use App\Jobs\ScrapeAndUpdateData;
 use Illuminate\Support\Facades\Log;
-
 
 class ScrapingController extends Controller
 {
-    public function saveScrapedData(Request $request)
-    {
-        try {
-            // Validate the incoming request
-            $validated = $request->validate([
-                'search_param' => 'required|string', 
-                'data' => 'required|json',
-            ]);
-
-            // Save the data into the database
-            ScrapedData::create([
-                'search_param' => $validated['search_param'],
-                'data' => $validated['data'],
-            ]);
-
-            return response()->json(['message' => 'Data saved successfully'], 201);
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Error saving scraped data: ' . $e->getMessage());
-
-            return response()->json(['error' => 'Failed to save data', 'details' => $e->getMessage()], 500);
-        }
-    }
-
-
     public function fetchData(Request $request)
     {
-        $searchParam = $request->query('search_param');
-        $data = ScrapedData::where('search_param', $searchParam)->get();
+        $search_param = $request->query('search_param');
+        $username = $request->query('username', 'guest'); // Default to 'guest' if not provided
 
-        return response()->json($data);
+        // Log the username for debugging
+        Log::info('Username for search: ' . $username);
+
+        // Save the search term for the user
+        UserSearch::create([
+            'username' => $username,
+            'search_param' => $search_param,
+        ]);
+
+        // Check if data for this search term exists in the database
+        $data = ScrapedDB::where('search_param', $search_param)->first();
+
+        if ($data) {
+            // Return existing data immediately
+            return response()->json(json_decode($data->data));
+        } else {
+            // No data exists, run the scraping job
+            try {
+                $scrapedData = (new ScrapeAndUpdateData($search_param))->handle();
+
+                if (!empty($scrapedData)) {
+                    return response()->json($scrapedData, 200);
+                } else {
+                    return response()->json(['error' => 'No data found for the search term'], 404);
+                }
+            } catch (\Exception $e) {
+                Log::error('Error scraping data: ' . $e->getMessage());
+                return response()->json(['error' => 'Error occurred while scraping'], 500);
+            }
+        }
     }
 }

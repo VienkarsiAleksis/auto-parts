@@ -21,6 +21,11 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         }
     };
 
+    const handleSelectPart = (selectedPart) => {
+        setPart(selectedPart); // Set the selected part in state
+        router.visit(`/products?search=${selectedPart}`); // Route to the search page
+    };
+
     return (
         <>
             <Head title="Welcome" />
@@ -105,35 +110,36 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         icon={FaSearch}
                     />
                     <div className='h-64 w-full bg-white rounded-lg flex justify-center items-center down-border'>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/5385/5385676.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('motoreļļa')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/8597/8597466.png" alt="Engine oil" />
                             <p>Engine oil</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn1.iconfinder.com/data/icons/car-service-90/32/fuel_filter_car_part-512.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('degvielas filtrs')}>
+                            <img src="https://cdn1.iconfinder.com/data/icons/car-service-90/32/fuel_filter_car_part-512.png" alt="Fuel filter" />
                             <p>Fuel filter</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590498.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('eļļas filtrs')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590519.png" alt="Oil filter" />
                             <p>Oil filter</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/8570/8570258.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('gaisa filtrs')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/8570/8570258.png" alt="Air filter" />
                             <p>Air filter</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3071/3071441.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('akumulators')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3071/3071441.png" alt="Battery" />
                             <p>Battery</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/926/926678.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('siksna')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/926/926678.png" alt="Belt" />
                             <p>Belt</p>
                         </div>
-                        <div className='select'>
-                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590519.png" alt="" />
+                        <div className='select' onClick={() => handleSelectPart('ģenerātors')}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590498.png" alt="Alternator" />
                             <p>Alternator</p>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -192,6 +198,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     justify-content: center;
                     align-items: center;
                     flex-direction: column;
+                    transition-duration: 0.2s;
+                    cursor: pointer;
+                    
                 }
                 .select:hover{
                     box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;

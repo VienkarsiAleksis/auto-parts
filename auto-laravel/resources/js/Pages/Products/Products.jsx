@@ -1,14 +1,26 @@
-import { Link, Head, router } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import SearchInput from '../../Components/SearchInput';
-import { FaSearch } from "react-icons/fa";
-import style from "./product.module.scss";
-import Dropdown from '../../Components/Dropdown';
+import Navbar from './Components/Navbar';
+import Filters from './Components/Filters';
+import ProductList from './Components/ProductList';
+import Paginator from './Components/Pagination';
+import style from './Product.module.scss';
 
 const ProductPage = ({ auth }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
+    const [filteredResults, setFilteredResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [filters, setFilters] = useState({
+        minPrice: '', // Initial values set to empty strings
+        maxPrice: '',
+        sortBy: 'relevance',
+    });
+    const [currentPage, setCurrentPage] = useState(1);
+    const [resultsPerPage] = useState(40);
+    const [websites, setWebsites] = useState([]);
+    const [totalResults, setTotalResults] = useState(0);
+    const [searchCompleted, setSearchCompleted] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -19,152 +31,146 @@ const ProductPage = ({ auth }) => {
         }
     }, []);
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('search_param'); // Changed from 'search' to 'search_param'
+        if (query) {
+            setSearchTerm(query);
+            fetchResults(query);
+        }
+    }, []);
+
+    useEffect(() => {
+        applyFilters(results); // Call applyFilters whenever results or filters change
+    }, [filters, results]);
+
     const fetchResults = async (term) => {
+        setLoading(true);
+        setSearchCompleted(false);
+
         try {
-            // Call Laravel API to check if data exists in the database
-            const dbResponse = await axios.get(`http://localhost:8000/api/fetch_data`, {
-                params: { search_term: term }
+            const response = await axios.get(`http://localhost:8000/api/fetch_data`, {
+                params: { 
+                    search_param: term,
+                    username: auth.user.name // Pass the username
+                }
+
             });
 
-            if (dbResponse.data.length > 0) {
-                setResults(dbResponse.data); // Set results from the database
-            } else {
-                // If no data, scrape and save it
-                const scrapeResponse = await axios.get('http://localhost:6969/scrape', {
-                    params: { q: term }
-                });
-                const scrapedData = scrapeResponse.data;
-                setResults(scrapedData);
-                await saveScrapedData(scrapedData, term); // Save scraped data
-            }
+            if (response.status === 200) {
+                const data = Array.isArray(response.data) ? response.data : [];
+                setResults(data);
+                setTotalResults(data.length);
 
+                const distinctWebsites = [...new Set(data.map(item => item.website))];
+                setWebsites(distinctWebsites);
+                applyFilters(data); // Filter immediately after fetching
+            } else if (response.status === 202) {
+                setResults([]);
+                setTotalResults(0);
+                setWebsites([]);
+                setFilteredResults([]);
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+            setSearchCompleted(true);
         }
     };
 
-    const saveScrapedData = async (searchTerm, scrapedData) => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/save-scraped-data', {
-                search_param: scrapedData, // The search term the user entered
-                data: searchTerm, // The scraped data as a JSON string
+    const applyFilters = (data) => {
+        let filteredData = Array.isArray(data) ? [...data] : [];
+
+        // Determine min and max prices
+        const minPrice = filters.minPrice === '' || parseFloat(filters.minPrice) < 0 ? 0 : parseFloat(filters.minPrice);
+        const maxPrice = filters.maxPrice === '' || parseFloat(filters.maxPrice) < 0 ? 999999 : parseFloat(filters.maxPrice);
+
+        // Filter the data based on price range
+        filteredData = filteredData.filter((item) => {
+            const price = parseFloat(item.price.replace(',', '.').replace('€', ''));
+            return price >= minPrice && price <= maxPrice;
+        });
+
+        // Sort the filtered data based on the sort criteria
+        if (filters.sortBy === 'priceAsc') {
+            filteredData.sort((a, b) => {
+                return parseFloat(a.price.replace(',', '.').replace('€', '')) - parseFloat(b.price.replace(',', '.').replace('€', ''));
             });
-            console.log('Data saved successfully:', response.data);
-        } catch (error) {
-            console.error('Error saving data:', error.response.data);
+        } else if (filters.sortBy === 'priceDesc') {
+            filteredData.sort((a, b) => {
+                return parseFloat(b.price.replace(',', '.').replace('€', '')) - parseFloat(a.price.replace(',', '.').replace('€', ''));
+            });
         }
-    };    
-    
-    const handleKeyDown = async (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            fetchResults(searchTerm);
-        }
+
+        setFilteredResults(filteredData);
+    };
+
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo(0, 0); // Scroll to top on page change
     };
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default action
+            // Update the URL with search_param
+            const newUrl = `/products?search=${encodeURIComponent(searchTerm)}`;
+            window.history.pushState({}, '', newUrl); // Update the URL without refreshing
+            fetchResults(searchTerm); // Trigger search
+        }
+    };
+
+
+    const handleFilterChange = (event) => {
+        const { name, value } = event.target;
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: value,
+        }));
+    };
+
+    const indexOfLastItem = currentPage * resultsPerPage;
+    const indexOfFirstItem = indexOfLastItem - resultsPerPage;
+    const currentItems = filteredResults.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredResults.length / resultsPerPage);
+
     return (
-        <div className='flex flex-col min-h-screen bg-center bg-cover'>
-            <div className={style.navbar}>
-                <div className='text-2xl sm:text-4xl text-black font-thin font-semibold'>ChikChing.lv</div>
-                <SearchInput
-                    id="part"
-                    type="text"
-                    name="part"
-                    value={searchTerm}
-                    className={`h-16 w-full rounded-3xl px-6 ${style['input-sty']}`}
-                    autoComplete="current-part"
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    isFocused={true}
-                    placeholder="Search car parts..."
-                    icon={FaSearch}
-                />
-                <div>
-                    {auth.user ? (
-                        <Dropdown>
-                            <Dropdown.Trigger>
-                                <span className="inline-flex rounded-md">
-                                    <button
-                                        type="button"
-                                        className="inline-flex items-center text-lg sm:text-xl font-semibold text-black hover:text-gray-300"
-                                    >
-                                        {auth.user.name}
-                                        <svg
-                                            className="ms-2 -me-0.5 h-4 w-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </button>
-                                </span>
-                            </Dropdown.Trigger>
-
-                            <Dropdown.Content>
-                                <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                <Dropdown.Link href={route('logout')} method="post" as="button">
-                                    Log Out
-                                </Dropdown.Link>
-                            </Dropdown.Content>
-                        </Dropdown>
-                    ) : (
-                        <>
-                            <Link
-                                href={route('login')}
-                                className="text-lg sm:text-xl font-semibold text-black hover:text-gray-300 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                            >
-                                Log in
-                            </Link>
-
-                            <Link
-                                href={route('register')}
-                                className="text-lg sm:text-xl ml-4 font-semibold text-black hover:text-gray-300 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                            >
-                                Register
-                            </Link>
-                        </>
-                    )}
-                </div>
-            </div>
-            <div className={style.productOutput}>
-                <div className={style.filter}>
-                    <div className={style.sort}>
-                        <p>Sort</p>
-                        <select name="sort" id="sort">
-                            <option value="Lowest to Highest">Lowest to Highest</option>
-                            <option value="Highest to Lowest">Highest to Lowest</option>
-                        </select>
-                    </div>
-                    <div className={style.sortByPrice}>
-                        <p>Sort by Price</p>
-                        <div className={style.numberInput}>
-                            <input type="number" /><div>-</div><input type="number" />
-                        </div>
-                    </div>
-                </div>
-                {results.length > 0 && (
-                    <div className={style.products}>
-                        {results.map((item, index) => (
-                            <div key={index} className={style.item}>
-                                <img src={item.img} alt={item.desc} />
-                                <p><strong>Website: </strong> {item.website}</p>
-                                <p><strong>Name:</strong> {item.desc}</p>
-                                <p><strong>Price:</strong> {item.price}</p>
-                                <a href={item.link} target="_blank" rel="noopener noreferrer">View Item</a>
-                            </div>
-                        ))}
-                    </div>
+        <div className="flex flex-col min-h-screen bg-center bg-cover">
+            <Navbar
+                auth={auth}
+                searchTerm={searchTerm}
+                handleChange={handleChange}
+                handleKeyDown={handleKeyDown}
+            />
+            <Filters filters={filters} handleFilterChange={handleFilterChange} totalResults={totalResults} />
+            <div className="p-4">
+                {searchTerm && totalResults > 0 && (
+                    <>
+                        <p className={style.total}>
+                            Total results found for "{searchTerm}" <span>({totalResults})</span>
+                        </p>
+                        <p className={style.found}>
+                            Found in: <span>{websites.join(', ')}</span>
+                        </p>
+                    </>
                 )}
             </div>
+            <ProductList results={currentItems} loading={loading} />
+
+            {/* Show Paginator only when there are results */}
+            {filteredResults.length > 0 && totalPages > 1 && (
+                <Paginator
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
         </div>
     );
 };

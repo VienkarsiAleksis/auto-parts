@@ -1,59 +1,71 @@
-const puppeteer = require('puppeteer-extra');
+const fs = require('fs');
+const path = require('path');
 
-// Function to get a random user agent
-const randomUserAgent = () => {
-    const userAgents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
-        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
-        // Add more user agents if needed
-    ];
-    return userAgents[Math.floor(Math.random() * userAgents.length)];
-};
+const scrapeTrodo = async (page, searchTerm) => {
+    const cookies = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../cookies/trodoCookies.json'), 'utf8'));
+    await page.setCookie(...cookies);
 
-const scrapeTrodo = async (browser, searchTerm) => {
-    const results = []; // Initialize results array
-    const page = await browser.newPage();
-    await page.setUserAgent(randomUserAgent());
-    await page.goto('https://www.trodo.lv/', { waitUntil: 'domcontentloaded', timeout: 30000 });
-    
+    // Now navigate to the Trodo homepage with cookies applied
+    await page.goto('https://www.trodo.lv/', { waitUntil: 'networkidle2', timeout: 30000 });
+
+    // Wait for the search input to appear and enter the search term
     await page.waitForSelector('form > div.input-block > input[type=text]', { timeout: 10000 });
     await page.type('form > div.input-block > input[type=text]', searchTerm);
+
+    // Press 'Enter' to start the search
     await page.keyboard.press('Enter');
+    
+    // Wait for search results to load
     await page.waitForSelector('.product-list-type .product', { timeout: 30000 });
 
-    // Scrape results from the first page
-    await scrapePageResults(page, results);
-    const currentUrl = page.url();
+    // Initialize an empty array to store results
+    let results = [];
+    results = results.concat(await scrapePageResults(page));
+
+    const currentUrl = page.url();  // Capture the current URL for pagination
+
     // Loop to scrape additional pages (up to 5 pages)
     for (let pageNum = 2; pageNum <= 5; pageNum++) {
-        const nextPageUrl = `${currentUrl}&p=${pageNum}`; // Append the ?p={pageNum} parameter
-        
-        await page.goto(nextPageUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-        
-        // Wait for results to load
-        await page.waitForSelector('.product-list-type .product', { timeout: 30000 });
-
-        // Scrape results from the current page
-        await scrapePageResults(page, results);
+        try {
+            const nextPageUrl = `${currentUrl}&p=${pageNum}`;
+            await page.goto(nextPageUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+            await page.waitForSelector('.product-list-type .product', { timeout: 30000 });
+            results = results.concat(await scrapePageResults(page));  // Append results from the current page
+        } catch (error) {
+            console.error(`Error scraping page ${pageNum}:`, error.message);
+            // Optionally break the loop if the error is critical
+            break;
+        }
     }
 
-    await page.close();
-    return results;
+    await page.close();  // Close the page after scraping
+    return results;  // Return all scraped results
 };
 
 // Helper function to scrape results from the current page
-const scrapePageResults = async (page, results) => {
-    const items = await page.$$('.product-list-type .product'); // Use the correct selector
-
+const scrapePageResults = async (page) => {
+    const items = await page.$$('.product-list-type .product');  // Select all products
+    const pageResults = [];
+    
     for (const item of items) {
-        const desc = await item.$eval('.product-title > h2', el => el.textContent.trim());
-        const link = await item.$eval('.product-image > a', el => el.getAttribute('href'));
-        const price = await item.$eval('.price', el => el.textContent.trim());
-        const img = await item.$eval('div.product-image > a > span > img', el => el.getAttribute('src'));
+        try {
+            // Extract necessary product details
+            const desc = await item.$eval('.product-title > h2', el => el.textContent.trim());
+            const link = await item.$eval('.product-image > a', el => el.getAttribute('href'));
+            const price = await item.$eval('.price', el => el.textContent.trim());
+            const img = await item.$eval('div.product-image > a > span > img', el => el.getAttribute('src'));
 
-        results.push({ website: "trodo", desc, link, price, img });
+            // Push the scraped data into the results array for the current page
+            pageResults.push({ website: "trodo", desc, link, price, img });
+        } catch (error) {
+            console.error('Error scraping item:', error.message);
+        }
     }
+    
+    return pageResults;  // Return the scraped results for the current page
 };
+
+// Function to generate random delay
+const randomDelay = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 module.exports = scrapeTrodo;

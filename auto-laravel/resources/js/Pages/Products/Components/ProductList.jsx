@@ -8,7 +8,7 @@ const ProductList = ({ results, loading }) => {
             {loading ? (
                 <div className={style.loadingContainer}>
                     <div className={style.spinner}></div>
-                    <p>Gathering data, please wait...</p>
+                    <p>Notiek datu apkopošana, lūdzu, uzgaidiet...</p>
                 </div>
             ) : results.length > 0 ? (
                 <div className={style.products}>
@@ -17,7 +17,7 @@ const ProductList = ({ results, loading }) => {
                     ))}
                 </div>
             ) : (
-                <p>No results found. Try searching for something else!</p>
+                <p>Nav atrasts neviens rezultāts. Mēģiniet meklēt kaut ko citu!</p>
             )}
         </div>
     );

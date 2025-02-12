@@ -10,9 +10,9 @@ class CreateUserSearchesTable extends Migration
     {
         Schema::create('user_searches', function (Blueprint $table) {
             $table->id();
-            $table->string('username'); // Store username or 'guest'
-            $table->string('search_param'); // The search term
-            $table->timestamps(); // Timestamps for created_at and updated_at
+            $table->string('username');
+            $table->string('search_param');
+            $table->timestamps();
         });
     }
 

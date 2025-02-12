@@ -23,16 +23,11 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->middleware(['auth', 'verified'])->name('welcome');
+})->name('welcome');
 
 route::get('/products', function () {
     return Inertia::render('Products/Products');
 })->name('Products');
-
-route::get('/dashboard', function () {
-    return Inertia::render('Dashboard/dashboard');
-})->name('dashboard');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

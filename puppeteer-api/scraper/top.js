@@ -11,13 +11,12 @@ const randomUserAgent = () => {
     return userAgents[Math.floor(Math.random() * userAgents.length)];
 };
 
-const scrapeTOP = async (browser, searchTerm) => {
+const scrapeTOP = async (page, searchTerm) => {
     const results = []; // Initialize results array
-    const page = await browser.newPage();
     await page.setUserAgent(randomUserAgent());
-    await page.goto('https://www.toprezervesdalas.lv/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.goto('https://www.toprezervesdalas.lv/', { waitUntil: 'networkidle2', timeout: 30000 });
 
-    await page.waitForSelector('.input-search', { timeout: 10000 });
+    await page.waitForSelector('.input-search', { timeout: 30000 });
     await page.type('.input-search', searchTerm);
     await page.keyboard.press('Enter');
     await page.waitForSelector('.listing-list-view__item', { timeout: 30000 });

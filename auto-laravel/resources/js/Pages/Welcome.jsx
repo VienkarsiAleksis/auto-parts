@@ -1,9 +1,21 @@
 import { Link, Head, router } from '@inertiajs/react';
 import { useState } from 'react';
-import Dropdown from '../Components/Dropdown';
-import SearchInput from '../Components/SearchInput';
+import Dropdown from './Components/Dropdown';
+import SearchInputWelc from './Components/SearchInputWelc';
 import { FaCar } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
+import oil from "../../assets/engine.png";
+import fuelFilter from "../../assets/fuel_filter.webp";
+import oilFilter from "../../assets/oil_filter.png";
+import airFilter from "../../assets/air filter.png";
+import alternator from "../../assets/alternator.png";
+import belt from "../../assets/belt.png";
+import battery from "../../assets/battery.webp";
+import trodo from "../../assets/trodo.svg";
+import autodoc from "../../assets/autodco.png";
+import ic from "../../assets/ic.webp";
+import bmw from "../../assets/bmw.webp";
+import subaru from "../../assets/subaru.png";
 
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
@@ -29,9 +41,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
             <Head title="Welcome" />
-            <div className="container background relative flex flex-col min-h-screen bg-center bg-cover">
-                <img className='absolute bmw' src="https://www.lloydmotorgroup.com/ImageLibrary/images/BMW/Retail/Master/New%20Cars/M%20Cars/M4%20Coupe%20Gallery/BMW-G82-M4-Sao-Paulo-Yellow-thumb.png" alt="" />
-                <img className='absolute mazda' src="https://s7d1.scene7.com/is/image/scom/RZR_K7X_360e_022?$750p$" alt="" />
+            <div className="background relative flex flex-col min-h-screen bg-center bg-cover">
+                <img className='absolute bmw' src={bmw} alt="" />
+                <img className='absolute mazda' src={subaru} alt="" />
                 <div className="navbar sm:fixed sm:top-0 p-6 sm:right-0 text-end w-screen flex px-20 bg-white">
                     <div className='text-2xl sm:text-4xl text-black logo'>ChikChing.lv</div>
                     <div className='ml-auto'>
@@ -61,9 +73,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
-                                    <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                    <Dropdown.Link href={route('profile.edit')}>Profils</Dropdown.Link>
                                     <Dropdown.Link href={route('logout')} method="post" as="button">
-                                        Log Out
+                                        Izrakstīties
                                     </Dropdown.Link>
                                 </Dropdown.Content>
                             </Dropdown>
@@ -73,30 +85,30 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     href={route('login')}
                                     className="text-lg sm:text-xl font-semibold text-black hover:text-gray-300 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                                 >
-                                    Log in
+                                    Ierakstīties
                                 </Link>
 
                                 <Link
                                     href={route('register')}
                                     className="text-lg sm:text-xl ml-4 font-semibold text-black hover:text-gray-300 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                                 >
-                                    Register
+                                    Reģistrēties
                                 </Link>
                             </>
                         )}
                     </div>
                 </div>
-                <div className='flex flex-col justify-center items-center text-center mt-56'>
-                    <div className='text-7xl font-bold text-black m-2'><h1>ALL PARTS. ONE SEARCH.</h1></div>
-                    <div className='text-4xl text-black'><p>Browse listings from all the major car parts sites, including:</p></div>
+                <div className='main_blow flex flex-col justify-center items-center text-center mt-56'>
+                    <div className='text-7xl font-bold text-black m-2'><h1 className="slogan">VISAS DETAĻAS. VIENĀ MEKLĒJUMĀ</h1></div>
+                    <div className='text-4xl text-black'><p className='include'>Pārlūkojiet sarakstus no visām pieprasītakajām automašīnu detaļu vietnēm, tostarp:</p></div>
                     <div className='flex space-x-4'>
-                        <img src="https://www.trodo.lv/media/delivery/trodo.svg" alt="Trodo" className='w-36 h-auto' />
-                        <img src="https://cdn.autodoc.de/uploads/images/social-networks/autodoc-logo.png" alt="Autodoc" className='w-36 h-auto' />
-                        <img src="https://bluesoft.com/wp-content/uploads/2020/04/Inter-Cars.png" alt="Inter-Cars" className='w-36 h-auto' />
+                        <img src={trodo} alt="Trodo" className='w-36 h-auto img' />
+                        <img src={autodoc} alt="Autodoc" className='w-36 h-auto img' />
+                        <img src={ic} alt="Inter-Cars" className='w-36 h-auto img' />
                     </div>
                 </div>
                 <div className='down w-screen flex flex-col justify-items-end items-center'>
-                    <SearchInput
+                    <SearchInputWelc
                         id="part"
                         type="text"
                         name="part"
@@ -106,37 +118,37 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         onChange={(e) => setPart(e.target.value)}
                         onKeyDown={handleKeyDown}
                         isFocused={true}
-                        placeholder="Search car parts..."
+                        placeholder="Meklē auto detaļu..."
                         icon={FaSearch}
                     />
                     <div className='h-64 w-full bg-white rounded-lg flex justify-center items-center down-border'>
                         <div className='select' onClick={() => handleSelectPart('motoreļļa')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/8597/8597466.png" alt="Engine oil" />
-                            <p>Engine oil</p>
+                            <img src={oil} alt="Engine oil" />
+                            <p>Motoreļļa</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('degvielas filtrs')}>
-                            <img src="https://cdn1.iconfinder.com/data/icons/car-service-90/32/fuel_filter_car_part-512.png" alt="Fuel filter" />
-                            <p>Fuel filter</p>
+                            <img src={fuelFilter} alt="Fuel filter" />
+                            <p>Degvielas filtrs</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('eļļas filtrs')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590519.png" alt="Oil filter" />
-                            <p>Oil filter</p>
+                            <img src={oilFilter} alt="Oil filter" />
+                            <p>Eļļas filtrs</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('gaisa filtrs')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/8570/8570258.png" alt="Air filter" />
-                            <p>Air filter</p>
+                            <img src={airFilter} alt="Air filter" />
+                            <p>Gaisa filtrs</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('akumulators')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3071/3071441.png" alt="Battery" />
-                            <p>Battery</p>
+                            <img src={battery} alt="Battery" />
+                            <p>Akumulators</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('siksna')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/926/926678.png" alt="Belt" />
-                            <p>Belt</p>
+                            <img src={belt} alt="Belt" />
+                            <p>Siksna</p>
                         </div>
                         <div className='select' onClick={() => handleSelectPart('ģenerātors')}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/6590/6590498.png" alt="Alternator" />
-                            <p>Alternator</p>
+                            <img src={alternator} alt="Alternator" />
+                            <p>Ģenerātors</p>
                         </div>
                     </div>
 
@@ -149,6 +161,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     background-color: #C6E1F1;
                     background-size: cover;
                     background-position: center;
+                    overflow: hidden;
                 }
                 .bg-btn{
                     background-color: #70727E;
@@ -175,13 +188,13 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 }
                 .bmw{
                     right: -500px;
-                    top: 200px;
-                    height: 25em;
+                    top: 270px;
+                    height: 22em;
                     width: auto;
                 }
                 .mazda{
-                    left: -470px;
-                    top: 200px;
+                    left: -500px;
+                    top: 270px;
                     height: 30em;
                     width: auto;
                 }
@@ -197,6 +210,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    text-align: center;
                     flex-direction: column;
                     transition-duration: 0.2s;
                     cursor: pointer;
@@ -211,6 +225,41 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 .select img{
                     width: 40px;
                     height: 40px;
+                }
+                .border{
+                    border: none;
+                }
+                @media only screen and (max-width: 600px) {
+                    .navbar {
+                        padding-left: 30px;
+                        padding-right: 30px;
+                    }
+                    .logo{
+                        font-size: 20px;
+                    }
+                    .slogan{
+                        font-size: 36px;
+                    }
+                    .include{
+                        font-size: 26px;
+                    }
+                    .border{
+                        width: 90%;
+                        border: none;
+                        margin-top: 20px;
+                    }
+                    .img{
+                        width: 80px;
+                    }
+                    .down-border{
+                        display: none;
+                    }
+                    .bmw, .mazda{
+                        display: none;
+                    }
+                    .main_blow{
+                        margin-top: 5em;
+                    }
                 }
             `}</style>
         </>

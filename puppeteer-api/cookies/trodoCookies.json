@@ -1,0 +1,32 @@
+[
+    {
+        "name": "form_key",
+        "value": "6ELJ04Oc8h18esKy",
+        "domain": "www.trodo.lv",
+        "path": "/",
+        "expires": -1, 
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "PHPSESSID",
+        "value": "m67hd87risbdu93plru2k2mbdb",
+        "domain": ".www.trodo.lv",
+        "path": "/",
+        "expires": 1727264645,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "cf_clearance",
+        "value": "qvk5Qg0tqYgTSCG3Y0IT1U2boRUnBQ7N1BjzuF15UOE-1729335999-1.2.1.1-Wo3qOvqQp4IyJbGLP3Kntubs05852r.OeHOflp_SWNhpcPlo3zWhDStt_yC50RO3bUG8UvJEukJFbK_ooLMPOb9nxrL5OeCpV.HQErdl7JwkhBZPV1L5m_wUEPFGnB_ZGLZpi8GeuiOvxnulQCxRcjCVcnzeMKAEW1zatwKCrvV57HMA9pCIgtRwWYiPuf0FzUtDH_a7Vp_KT1OA6regVJgiu_IL5gnc7rCq4jfDJyHYpgbmvRj6q2jDDvdRhyi3S.vpMLS613cgwYtJ3_yKEC.jF17yjFo6q5FVVvjPeR1h_AGTbfeX.mtFDKQFYXgCkBiFV2uY3VwwjaYPvaWhB2QKTZyUfXGiu_wE9rO.2CLA6VWY8UmppGnEQ6w6bima",
+        "domain": ".trodo.lv",
+        "path": "/",
+        "expires": 1744843599,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "None"
+    }
+]

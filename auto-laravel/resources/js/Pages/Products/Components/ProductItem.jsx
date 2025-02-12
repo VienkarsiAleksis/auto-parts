@@ -2,6 +2,8 @@ import React from 'react';
 import style from '../Product.module.scss';
 
 const ProductItem = ({ item }) => {
+    const formattedPrice = item.price.includes('€') ? item.price : `${item.price} €`;
+
     return (
         <a className={style.item} href={item.link} target="_blank" rel="noopener noreferrer">
             <div className={style.imageContainer}>
@@ -10,7 +12,7 @@ const ProductItem = ({ item }) => {
             <div className={style.info}>
                 <p className={style.name}>{item.desc}</p>
                 <p className={style.website}>{item.website}</p>
-                <p className={style.price}>{item.price} €</p>
+                <p className={style.price}>{formattedPrice}</p>
             </div>
         </a>
     );

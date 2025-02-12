@@ -1,29 +1,70 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
-import Dropdown from 'C:/laragon/www/auto-parts/auto-laravel/resources/js/Components/Dropdown';
-import SearchInput from 'C:/laragon/www/auto-parts/auto-laravel/resources/js/Components/SearchInput';
+import Dropdown from '../../Components/Dropdown';
+import SearchInput from './SearchInput';
 import { FaSearch } from "react-icons/fa";
 import style from '../Product.module.scss';
 
-const Navbar = ({ auth, searchTerm, handleChange, handleKeyDown }) => {
+const Navbar = ({ auth, searchTerm, handleChange, onKeyDown, recentSearched = [] }) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const handleFocus = () => {
+        setIsDropdownOpen(true);
+    };
     
+    const handleBlur = () => {
+        setIsDropdownOpen(false);
+    };
+
+    useEffect(() => {
+        const handleKeyDownEvent = (event) => {
+            if (event.key === 'Escape') {
+                setIsDropdownOpen(false);
+            }else if(searchTerm === ""){
+                setIsDropdownOpen(false);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDownEvent);
+        return () => window.removeEventListener('keydown', handleKeyDownEvent);
+    }, []);
+
     return (
         <div className={style.navbar}>
-            <div className="text-2xl sm:text-4xl text-black font-thin font-semibold">ChikChing.lv</div>
-            <SearchInput
-                id="part"
-                type="text"
-                name="part"
-                value={searchTerm}
-                className={`h-16 w-full rounded-3xl px-6 ${style['input-sty']}`}
-                autoComplete="current-part"
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                isFocused={true}
-                placeholder="Search car parts..."
-                icon={FaSearch}
-            />
+            <a className="text-2xl sm:text-4xl text-black logo" href={route('welcome')}>ChikChing.lv</a>
+            <div className={style.right_side}>
+            <div className={`${style['search-input']} relative w-[50%]`}>
+                <SearchInput
+                    id="part"
+                    type="text"
+                    name="part"
+                    searchTerm={searchTerm}
+                    className={`h-16 w-full rounded-3xl px-6 text-lg ${style['input-sty']}`} // Adjusted h-16 to a larger height if desired
+                    autoComplete="current-part"
+                    handleChange={handleChange}
+                    onKeyDown={onKeyDown}
+                    onFocus={handleFocus} // Open dropdown on focus
+                    onBlur={handleBlur}   // Close dropdown on blur
+                    isFocused={true}
+                    placeholder="Search car parts..."
+                    icon={FaSearch}
+                />
+
+                {/* Recent Searches Dropdown */}
+                {isDropdownOpen && recentSearched.length > 0 && (
+                    <div className={`${style.recentSearches} absolute z-10 w-full bg-white shadow-lg rounded-md mt-1`}>
+                        <div className={style.recentSearchesList}>
+                            {recentSearched.map((item, index) => (
+                                <div key={index} className={style.recentSearchesItem}>
+                                    <Link href={`/products?search=${encodeURIComponent(item.search_param)}`}>
+                                        🔍 {item.search_param}
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div>
                 {auth.user ? (
                     <Dropdown>
@@ -51,9 +92,9 @@ const Navbar = ({ auth, searchTerm, handleChange, handleKeyDown }) => {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                            <Dropdown.Link href={route('profile.edit')}>Profils</Dropdown.Link>
                             <Dropdown.Link href={route('logout')} method="post" as="button">
-                                Log Out
+                                Izrakstīties
                             </Dropdown.Link>
                         </Dropdown.Content>
                     </Dropdown>
@@ -63,17 +104,18 @@ const Navbar = ({ auth, searchTerm, handleChange, handleKeyDown }) => {
                             href={route('login')}
                             className="text-lg sm:text-xl font-semibold text-black hover:text-gray-300"
                         >
-                            Log in
+                            Ierakstīties
                         </Link>
 
                         <Link
                             href={route('register')}
                             className="text-lg sm:text-xl ml-4 font-semibold text-black hover:text-gray-300"
                         >
-                            Register
+                            Reģistrēties
                         </Link>
                     </>
                 )}
+                </div>
             </div>
         </div>
     );

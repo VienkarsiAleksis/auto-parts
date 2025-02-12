@@ -22,20 +22,29 @@ class ScrapeAndUpdateData implements ShouldQueue
         $this->search_param = $search_param;
     }
 
+    public function getSearchParam()
+    {
+        return $this->search_param;
+    }
+
     public function handle()
     {
         ini_set('max_execution_time', 120);
         try {
+            Log::info("Searching for: {$this->search_param}");
+            
             $scrapeResponse = Http::timeout(600)->get('http://localhost:6969/scrape', [
                 'q' => $this->search_param
             ]);
-
+    
+            Log::info("Scraping response status: " . $scrapeResponse->status());
+            Log::info("Scraping response body: " . $scrapeResponse->body());
+    
             if ($scrapeResponse->successful()) {
                 $scrapedData = $scrapeResponse->json();
-
+    
                 // Check if scraped data is not empty
                 if (!empty($scrapedData)) {
-                    // Update the database with new scraped data if not empty
                     ScrapedDB::updateOrCreate(
                         ['search_param' => $this->search_param],
                         ['data' => json_encode($scrapedData)]
@@ -51,7 +60,8 @@ class ScrapeAndUpdateData implements ShouldQueue
         } catch (\Exception $e) {
             Log::error("Exception during scraping for {$this->search_param}: " . $e->getMessage());
         }
-
+    
         return [];
     }
+    
 }

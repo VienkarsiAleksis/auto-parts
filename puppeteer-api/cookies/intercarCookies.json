@@ -1,0 +1,147 @@
+[
+    {
+        "name": "x-ms-routing-name",
+        "value": "self",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-19T13:01:43.620Z",
+        "size": 21,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "theme_name",
+        "value": "ictheme-pl",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-20T12:01:43.621Z",
+        "size": 20,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "lang",
+        "value": "LV",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2025-03-04T14:47:43.556Z",
+        "size": 6,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "hidePrice",
+        "value": "0",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-21T17:03:17.296Z",
+        "size": 10,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "gaVisitorUuid",
+        "value": "f4b26c3b-cc58-4d58-a80d-00c5cb7f9b8b",
+        "domain": ".ic24.lv",
+        "path": "/",
+        "expires": "2024-10-26T12:01:27.925Z",
+        "size": 49,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "gaDomain-zqev3i",
+        "value": "NX-Nhy",
+        "domain": ".ic24.lv",
+        "path": "/",
+        "expires": "2024-10-19T12:02:41.000Z",
+        "size": 21,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "gaDomain-blX5z2",
+        "value": "bB8YAe",
+        "domain": ".ic24.lv",
+        "path": "/",
+        "expires": "2024-10-19T12:02:27.000Z",
+        "size": 21,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "firstrun",
+        "value": "T",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-21T12:01:26.000Z",
+        "size": 9,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "cf_clearance",
+        "value": "58grfJALxGbu5teXpyqPwUtlTQY5UIT.BuvAU8oiVdM-1729339281-1.2.1.1-Sp3rON0a1TWBRHPAS_Po.KeHNxMosSl763ywRHfoLoLUlrB18acyK_tob0Gc0xmedTpdMwPdrw4JShGr0rPYgj5CraEHQickYIzvKjf03XTgQK6aikBsTnlOeISuRuT24KXf58ZRHjmWXtOqZFWTElfH6beJdCYwIiMsd4KrzIIFSmx0ZgZqOCoQ20B66dx1E_E1Cuz0XRMKVPCABGX1ekB.Pz0rdQrQe4GdwHXpFR_8aNY2Ka87TDZcobd80AmF3MVBuvd8pOX1P_z0kpZt4.RXkPsOZgF9T.mo4.uB4D0at6NfNinSWaon.eHeu_VG7Vu36Em23oU_ESJGIB65kKmJh6_dEInzoWaGHTF1lbwcpteXQugOgsHnx2Rtqv5hgqz04ad9JccqedybOjHmGTl9Kxj5CGLJ5_5Fs.B8bplV2BOy8lYeD6YSGFISojMU",
+        "domain": ".ic24.lv",
+        "path": "/",
+        "expires": "2025-04-17T12:01:34.133Z",
+        "size": 523,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "None",
+        "sameSiteStrict": false,
+        "source": "https://ic24.lv"
+    },
+    {
+        "name": "cat-price-type",
+        "value": "B",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-21T17:03:17.299Z",
+        "size": 15,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "cat-price-currency",
+        "value": "",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "2024-10-21T17:03:17.300Z",
+        "size": 18,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "TIMEZONE_OFFSET",
+        "value": "180",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "Session",
+        "size": 18,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    },
+    {
+        "name": "PHPSESSID",
+        "value": "6ecb51a154195eb3bb3d7d83432b244d",
+        "domain": "www.ic24.lv",
+        "path": "/",
+        "expires": "Session",
+        "size": 41,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Medium"
+    }
+]

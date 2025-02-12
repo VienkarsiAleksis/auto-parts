@@ -1,0 +1,74 @@
+[
+    {
+        "name": "INGRESSCOOKIE",
+        "value": "1729338870.402.25645.936054|f89e2d2acc6cd8c158ba7aaea6f7fb53",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1697884470,
+        "httpOnly": true,
+        "secure": true
+    },
+    {
+        "name": "XSRF-TOKEN",
+        "value": "eyJpdiI6ImtUclprOGdIN1NiWTFJSkdFNERRd0E9PSIsInZhbHVlIjoiVUg5QU1xd2hJQ01MOERiVEZIdmdlOFZ0bjh6K2M2ck13OXNObmhOMmhMYVJWRE5NTkVhcGl6cnRPcnRwbUFVS0tWNGlZbE9iNFNSZEdRVkNUa2MzZVZMZUxyZlEvaEt5MHplQkl4aHIxVDQ5Ty9uKzI0QUpIS0RRUVFZSGRIblEiLCJtYWMiOiI2MmViMTQ4OGIxNTE3ODljNTY1MDhjMDU3OTU3NGRjNDFhMjc2MjhkMjBiNTU4N2IxMDAwMWFmZDAzZjZiNTg1IiwidGFnIjoiIn0%3D",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1713352580,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "__cf_bm",
+        "value": "_F_T56RRtTNbji65H1vSKflBdyfYv.YK4qS1ualjNR4-1729338870-1.0.1.1-TFxlNTRYvlwnS4a7m__WWK3LAQYBfRRVQbcYtj2BHH1JwalrYQs0AjhZ1lkCPKEjIUgJJmc._oUcjfB09GYg6c_e97OJBjZP2kfFeMVU4G4",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1697718270,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "cf_clearance",
+        "value": "K.o__DQ2UpUxg.6HOKoLYR_hfhTg6lIT2aCt1P6Uk4U-1729338872-1.2.1.1-94velWXY9ndyS7_H6W.UcSadh5NqSOY1GH6LesFkUxudE0HfMx9t3rgak_liR5HBy2fL8Ce68_UhFVl0FClskRwrjZwiJ2lpiDoR9QgS0nU_uPjRtjZw2U7E1xE2WXHF9.CydrMWig72cve_.C8RcQ5x3UJWroa_ZAMlrUpKBQc8zhp7VddR1dOwhhN4tCNkvk0b_CXLuFjKWNBONqjRvjM8mafnFCp.zqwSHFyLQP6KnnQXbddquGAxTCKuDs8yY8efiXjdnIRtBCtBf4ddb6.zLTp9zFULyZY.xa3ihYoNPgwy8xiQDy75wEQztsGZ4VmVVr.5LBjYClaW9u45jTBwxaKDpC23ksUGz3aplro7Qvxv76vs8lsKyIYfos0Y",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1713352572,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "clientCode",
+        "value": "384593",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1711159041,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "kmtx_sync",
+        "value": "6582075040615020348",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1714281580,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "kmtx_sync",
+        "value": "6582075040615020348",
+        "domain": "www.autodoc.lv",
+        "path": "/",
+        "expires": 1713352580,
+        "httpOnly": false,
+        "secure": true
+    },
+    {
+        "name": "kmtx_sync_pi",
+        "value": "c64ade34-2093-4dde-acef-7dbe46269e7c",
+        "domain": ".autodoc.lv",
+        "path": "/",
+        "expires": 1714281580,
+        "httpOnly": false,
+        "secure": true
+    }
+]

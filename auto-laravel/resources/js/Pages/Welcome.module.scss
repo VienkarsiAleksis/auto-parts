@@ -1,0 +1,81 @@
+.background {
+    position: relative;
+    background-color: #C6E1F1;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-btn {
+    background-color: #70727E;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.input-sty {
+    border: none;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    border-radius: 50px;
+}
+
+.input-sty:focus {
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.navbar {
+    border-radius: 0px 0px 70px 70px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.down {
+    height: 14.9em;
+}
+
+.down-border {
+    border-radius: 70px 70px 0px 0px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 12px;
+}
+
+.bmw {
+    right: -500px;
+    top: 270px;
+    height: 25em;
+    width: auto;
+}
+
+.mazda {
+    left: -500px;
+    top: 270px;
+    height: 30em;
+    width: auto;
+}
+
+.container {
+    overflow: hidden;
+}
+
+.select {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.select:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
+}
+
+.input {
+    width: 100%;
+}
+
+.select img {
+    width: 40px;
+    height: 40px;
+}

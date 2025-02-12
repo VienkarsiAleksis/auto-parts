@@ -10,4 +10,15 @@ export default defineConfig({
         }),
         react(),
     ],
+    build: {
+        outDir: 'public/build',  
+    },
+    server: {
+        historyApiFallback: true, 
+    },
+    test: {
+        environment: 'jsdom',
+        globals: true,        
+        setupFiles: './src/setupTests.js', 
+    },
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapingController;
@@ -19,8 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::any('/save-scraped-data', [ScrapingController::class, 'saveScrapedData']);
 Route::get('/fetch_data', [ScrapingController::class, 'fetchData']);
+Route::get('/most_searched', [ProductController::class, 'mostSearchedProducts']);
+Route::get('/recent-searches', [ProductController::class, 'getRecentSearches']);
+
 
 Route::options('/{any}', function (Request $request) {
     return response()->json();

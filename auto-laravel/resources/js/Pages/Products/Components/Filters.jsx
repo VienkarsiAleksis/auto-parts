@@ -3,6 +3,8 @@ import style from '../Product.module.scss';
 import { MdOutlineFilterList, MdOutlineFilterListOff } from "react-icons/md";
 import SearchInput from "./SearchInput";
 import { FaSearch } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const Filters = ({ filters, handleFilterChange, websites, excludedWebsites, handleReturnWebsite, handleExcludeWebsite, auth, searchTerm, handleChange, onKeyDown, recentSearched = [] }) => {
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -87,7 +89,7 @@ const Filters = ({ filters, handleFilterChange, websites, excludedWebsites, hand
                                     {recentSearched.map((item, index) => (
                                         <div key={index} className={style.recentSearchesItem}>
                                             <a href={`/products?search=${encodeURIComponent(item.search_param)}`}>
-                                                🔍 {item.search_param}
+                                                <FaSearch /> {item.search_param}
                                             </a>
                                         </div>
                                     ))}
@@ -107,14 +109,14 @@ const Filters = ({ filters, handleFilterChange, websites, excludedWebsites, hand
                                     className={style.returnButton}
                                     onClick={() => handleReturnWebsite(website)}
                                 >
-                                    <p>🔙</p>
+                                    <p><RiArrowGoBackFill size='26' color='lightblue'/></p>
                                 </button>
                             ) : (
                                 <button
                                     className={style.excludeButton}
                                     onClick={() => handleExcludeWebsite(website)}
                                 >
-                                    <p>❌</p>
+                                    <p><IoMdClose color='red' size='26'/></p>
                                 </button>
                             )}
                         </span>
@@ -132,25 +134,25 @@ const Filters = ({ filters, handleFilterChange, websites, excludedWebsites, hand
                     <p>Cenu diapazons</p>
                     <div className={style.numberInput}>
                         <div>
-                            <label>Min:</label>
+                            <label>Min (€):</label>
                             <input
                                 type="number"
                                 name="minPrice"
                                 value={filters.minPrice}
                                 onChange={handleFilterChange}
-                                placeholder="Min"
+                                placeholder="Min (€)"
                                 min="0"
                                 step="0.01"
                             />
                         </div>
                         <div>
-                            <label>Max:</label>
+                            <label>Max (€):</label>
                             <input
                                 type="number"
                                 name="maxPrice"
                                 value={filters.maxPrice}
                                 onChange={handleFilterChange}
-                                placeholder="Max"
+                                placeholder="Max (€)"
                                 min="0"
                                 step="0.01"
                             />

@@ -6,9 +6,13 @@ import ProductList from './Components/ProductList';
 import Paginator from './Components/Pagination';
 import style from './Product.module.scss';
 import bg from "../../../assets/bg.webp";
+import { CiSearch } from "react-icons/ci";
+import { FaSearch } from "react-icons/fa";
+import { Head } from '@inertiajs/react';
 
 const ProductPage = ({ auth }) => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [secondarySearchTerm, setSecondarySearchTerm] = useState('');
     const [results, setResults] = useState([]);
     const [filteredResults, setFilteredResults] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,8 +30,6 @@ const ProductPage = ({ auth }) => {
     const [recentSearched, setRecentSearched] = useState([]);
     const [submittedSearchTerm, setSubmittedSearchTerm] = useState('');
 
-    // console.log(recentSearched);
-
     const username = auth?.user?.name || 'guest';
 
     useEffect(() => {
@@ -35,6 +37,7 @@ const ProductPage = ({ auth }) => {
         const query = params.get('search');
         if (query) {
             setSearchTerm(query);
+            setSecondarySearchTerm(query);
             setSubmittedSearchTerm(query);
             fetchResults(query);
         }
@@ -42,21 +45,17 @@ const ProductPage = ({ auth }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            // Check if screen width is 600px or less
-            if (window.innerWidth <= 900) {
-                setResultsPerPage(15); // Set visible pages to 2
+            if (window.innerWidth <= 1200) {
+                setResultsPerPage(20);
+            } else if (window.innerWidth <= 900) {
+                setResultsPerPage(15);
             } else {
-                setResultsPerPage(30); // Set back to default 5
+                setResultsPerPage(30);
             }
         };
 
-        // Add event listener for resizing
         window.addEventListener('resize', handleResize);
-
-        // Call once to set initial value
         handleResize();
-
-        // Cleanup event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
@@ -68,10 +67,10 @@ const ProductPage = ({ auth }) => {
         setLoading(true);
 
         try {
-            const response = await axios.get(`http://localhost:8000/api/fetch_data`, {
+            const response = await axios.get(`/api/fetch_data`, {
                 params: {
                     search_param: term,
-                    username: username // Pass 'guest' or the actual username
+                    username: username
                 }
             });
 
@@ -131,6 +130,10 @@ const ProductPage = ({ auth }) => {
         setSearchTerm(event.target.value);
     };
 
+    const handleSecondarySearchChange = (event) => {
+        setSecondarySearchTerm(event.target.value);
+    };
+
     const handleFilterChange = (event) => {
         const { name, value } = event.target;
         setFilters((prevFilters) => ({
@@ -161,12 +164,32 @@ const ProductPage = ({ auth }) => {
             window.history.pushState({}, '', newUrl);
             fetchResults(searchTerm);
             setSubmittedSearchTerm(searchTerm);
+            setSecondarySearchTerm(searchTerm);
         }
     };    
 
+    const handleSecondaryKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const newUrl = `/products?search=${encodeURIComponent(secondarySearchTerm)}`;
+            window.history.pushState({}, '', newUrl);
+            fetchResults(secondarySearchTerm);
+            setSubmittedSearchTerm(secondarySearchTerm);
+            setSearchTerm(secondarySearchTerm);
+        }
+    };
+
+    const handleSecondarySearchSubmit = () => {
+        const newUrl = `/products?search=${encodeURIComponent(secondarySearchTerm)}`;
+        window.history.pushState({}, '', newUrl);
+        fetchResults(secondarySearchTerm);
+        setSubmittedSearchTerm(secondarySearchTerm);
+        setSearchTerm(secondarySearchTerm);
+    };
+
     const fetchMostSearched = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/most_searched');
+            const response = await axios.get('/api/most_searched');
             if (response.status === 200) {
                 setMostSearched(response.data);
             }
@@ -174,19 +197,18 @@ const ProductPage = ({ auth }) => {
             console.error('Error fetching most searched products:', error);
         }
     };
+    
     useEffect(() => {
         fetchMostSearched();
     }, []);
 
     const fetchRecentSearched = async () => {
-        // Check if the user is a guest
         if (!auth?.user?.name) {
-            console.log("Guest user. Skipping recent search fetch.");
-            return; // Exit if the user is a guest
+            return;
         }
 
         try {
-            const response = await axios.get('http://localhost:8000/api/recent-searches', {
+            const response = await axios.get('/api/recent-searches', {
                 params: { username: auth.user.name }
             });
             if (response.status === 200) {
@@ -202,7 +224,8 @@ const ProductPage = ({ auth }) => {
     }, []);
 
     return (
-        <div className="flex flex-col min-h-screen bg-center bg-cover">
+        <div className="flex flex-col min-h-screen bg-white">
+            <Head title="ChikChing.lv | Produkti" />
             <Navbar
                 auth={auth}
                 searchTerm={searchTerm}
@@ -211,7 +234,7 @@ const ProductPage = ({ auth }) => {
                 recentSearched={recentSearched}
             />
             <div className={style.bg}>
-                <img src={bg} alt="" />
+                <img src={bg} alt="Background" />
             </div>
             <div className={style.mainSection}>
                 <Filters
@@ -227,41 +250,64 @@ const ProductPage = ({ auth }) => {
                     recentSearched={recentSearched}
                     auth={auth}
                 />
-                <div className="w-[100%] bg-white">
+                <div className="w-full bg-white">
                     {totalResults > 0 && (
-                        <>
-                            <p className={style.total}>
-                                Meklēšanas rezultāti priekš: "{submittedSearchTerm}" <span>({totalResults})</span>
-                            </p>
+                        <div className={style.resultsHeader}>
+                            <div className={style.resultsInfo}>
+                                <p className={style.total}>
+                                    Meklēšanas rezultāti priekš: "{submittedSearchTerm}" <span>({totalResults})</span>
+                                </p>
+                                
+                                {/* New secondary search bar */}
+                                <div className={style.secondarySearchContainer}>
+                                    <div className={style.secondarySearchInput}>
+                                        <input
+                                            type="text"
+                                            value={secondarySearchTerm}
+                                            onChange={handleSecondarySearchChange}
+                                            onKeyDown={handleSecondaryKeyDown}
+                                            className={style.secondarySearchField}
+                                            placeholder="Meklēt citu..."
+                                        />
+                                        <button 
+                                            onClick={handleSecondarySearchSubmit}
+                                            className={style.secondarySearchButton}
+                                        >
+                                            <FaSearch />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
                             {/* People also searched for section */}
-                            <p className={style.also}>Citi meklēja arī:</p>
-                            <div className={style.mostSearchedList}>
-                                {mostSearched.length > 0 ? (
-                                    mostSearched.map((item, index) => (
-                                        <div key={index} className={style.mostSearchedItem}>
-                                            <a href={`/products?search=${encodeURIComponent(item.search_param)}`}>
-                                                🔍 {item.search_param}
-                                            </a>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No other popular searches at this time.</p>
-                                )}
+                            <div className={style.alsoSearchedSection}>
+                                <p className={style.also}>Citi meklēja arī:</p>
+                                <div className={style.mostSearchedList}>
+                                    {mostSearched.length > 0 ? (
+                                        mostSearched.map((item, index) => (
+                                            <div key={index} className={style.mostSearchedItem}>
+                                                <a href={`/products?search=${encodeURIComponent(item.search_param)}`}>
+                                                    <CiSearch /> {item.search_param}
+                                                </a>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>Nav citu populāru meklējumu šobrīd.</p>
+                                    )}
+                                </div>
                             </div>
-                        </>
+                        </div>
                     )}
                 
+                    <ProductList results={currentItems} loading={loading} />
 
-                <ProductList results={currentItems} loading={loading} />
-
-                {filteredResults.length > 0 && totalPages > 1 && (
-                    <Paginator
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                    />
-                )}
+                    {filteredResults.length > 0 && totalPages > 1 && (
+                        <Paginator
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
                 </div>
             </div>
         </div>

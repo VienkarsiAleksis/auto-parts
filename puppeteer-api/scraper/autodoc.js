@@ -43,7 +43,7 @@ const scrapePageResults = async (page) => {
             const img = await item.$eval('div.listing-item__wrap > div.listing-item__image > a > img', el => el.getAttribute('src'));
             pageResults.push({ website: "autodoc", desc, link, price, img });
         } catch (error) {
-            console.error('Error scraping item:', error.message);
+            console.error('Error scraping item:', error.message, ' in autodoc');
         }
     }
 

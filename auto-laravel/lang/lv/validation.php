@@ -103,7 +103,7 @@ return [
         'array' => ':attribute jāsatur vismaz :min vienumi.',
         'file' => ':attribute jābūt vismaz :min kilobaiti.',
         'numeric' => ':attribute jābūt vismaz :min.',
-        'string' => ':attribute jābūt vismaz :min rakstzīmēm.',
+        'string' => ':attribute rakstzīmēm jabūt vismaz :min',
     ],
     'min_digits' => ':attribute jāsatur vismaz :min cipari.',
     'missing' => ':attribute laukam ir jābūt trūkstam.',
@@ -184,7 +184,9 @@ return [
 
     'attributes' => [
         'email' => "epasts",
-        'password' => "parole"
+        'password' => "parole",
+        'name' => "lietotājvārds",
+        'current_password' => "pašreizējā parole",
     ],
 
 ];

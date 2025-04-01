@@ -38,7 +38,6 @@ const scrapeTrodo = async (page, searchTerm) => {
         }
     }
 
-    await page.close();  // Close the page after scraping
     return results;  // Return all scraped results
 };
 
@@ -58,14 +57,11 @@ const scrapePageResults = async (page) => {
             // Push the scraped data into the results array for the current page
             pageResults.push({ website: "trodo", desc, link, price, img });
         } catch (error) {
-            console.error('Error scraping item:', error.message);
+            console.error('Error scraping item:', error.message, ' in trodo');
         }
     }
     
     return pageResults;  // Return the scraped results for the current page
 };
-
-// Function to generate random delay
-const randomDelay = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 module.exports = scrapeTrodo;

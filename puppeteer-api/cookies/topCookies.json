@@ -1,0 +1,123 @@
+[
+    {
+      "Name": "INGRESSCOOKIE",
+      "value": "1741112236.848.2673.847546|6c16172652c2f81488d63296b03612ff",
+      "domain": "www.toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-06T18:17:16.575Z",
+      "size": 72,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Medium"
+    },
+    {
+      "Name": "__cf_bm",
+      "value": "HO8TKVYebZ1r2SFvcd6a.P_Y.YHks9iUUlXEXG0facM-1741124962-1.0.1.1-aKb9Z46ZRMQ83CKbMcgi2yykgjz_nGIU8CLnOlH6MiB_WDg9HYLT0_fvBxn7F8BHuTWI1nEYlnhhQIzuq65qW7nR1SBCdSD4mb5mIuKGB6wSLv5r0fsISz8eRsFIgH81",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-04T22:19:22.606Z",
+      "size": 198,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "Name": "cf_clearance",
+      "value": "CMnS9UL5r77Ky8rtqah_3DI70w_0Ut1NE8N80DRxa70-1741124964-1.2.1.1-wUItJM3XSnHrjyEnClfyVqRx0TimEzdDNtqdCcwXPgm6iQ.twtPDQABhqXzyJpH3RalfuX0Voo6hJ0MFTQVuDE2Mtw2na0FLMjH1k4zD1PqrtWtRmYpc2e5Mgq0h70Bfy7coOAv9AafOZa3fHfA6grimKHbdxe.NYPKWLgz9I952cdhf0x.2y6HnpwNE4ODZYq8bQpvi_iPNDk3Xzl6NYHfnDe1Khc64KBfc7c7HUR5JhShibVNAgAcV1jq7x5qDp3zEfj9u8zLGQc8eNyesxF1Xz2M1Y2jBrpNUL1XbtVN2Ql6vLUZ5iQFdsF2KKsTwZ.n6MXP93xEKOLuWQRaNRnmJRtW10IypccpVPqF0T4QTbxhr.MzjfKECpGfVVJ4ZTdzEp0Nmgdw0Rj6yzLVxARcTIYG3Zdcf3OrvIggUMqs",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-08-31T21:49:24.803Z",
+      "size": 502,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "Name": "checkedSwitchClone",
+      "value": "1",
+      "domain": "www.toprezervesdalas.lv",
+      "path": "/",
+      "expires": "Session",
+      "size": 19
+    },
+    {
+      "Name": "clientCode",
+      "value": "907689",
+      "domain": "www.toprezervesdalas.lv",
+      "path": "/",
+      "expires": "Session",
+      "size": 16
+    },
+    {
+      "Name": "fuel_csrf_token",
+      "value": "e6ad4265fd9dff63d9848964c302294f52628f5401ae7551bf0f331af2fa7d5af74447fcf4dc8e1b217929325e1968584231115883ae67b704f0b9def9b4cd34",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-04T22:49:32.565Z",
+      "size": 143,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "Name": "fueldid",
+      "value": "S%3Ak9GGhZ45x5gifGDz_5Nh3xmqYqbUMI7Bn2lMFJNlQJ-vf-7HBDp20n6L8AH3NByD38rVwFHOws7gjTYroCPPTQgfXP-waQgOT3SrM1peQ7uaJASOmfd6CzZ1-X7ksKyZzaRg3j00Gh1idZ9uAnyMINbf114MrtFtSBmeqMNDejfwN0gJVXFeLrq-o24YOf6Ys5btkQSjEb4ylEyrq4_JxehDsN-rbzLkYb0%3D",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-08-31T18:17:55.239Z",
+      "size": 241,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "Name": "fuelrid1",
+      "value": "S%3AcvICYduLR1tZEjGV9Lt6u7z6QeYYtftqCgy_8gunuY90oADysePqaDivkuXR8FYQCrpH-8wRlsWheMbmkCaSTSmZFZukCsWyRsjYKDS1GxMJiiC6efLDiTchoQz0zLyNyquXBTNQmflWyFqkUshiEQdxXg7CqbzwP-w1T1sU6xSCzoN_7iW9NrI6WAxhx8oy0YQMbV0JQ8Y4xdB8mFKlFZOze1KaoBQj1Wc%3D",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-08-23T10:09:52.168Z",
+      "size": 242,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "Name": "kmtx_sync",
+      "value": "9806980776009447955",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-11T21:49:32.936Z",
+      "size": 28
+    },
+    {
+      "Name": "kmtx_sync",
+      "value": "9806980776009447955",
+      "domain": "www.toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-08-31T21:49:38.685Z",
+      "size": 28,
+      "sameSite": "None"
+    },
+    {
+      "Name": "kmtx_sync_pi",
+      "value": "eac44242-615b-4cad-8f35-c7c06ac88feb",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-11T21:49:32.936Z",
+      "size": 48
+    },
+    {
+      "Name": "tb_visit_counter_top_lv",
+      "value": "10",
+      "domain": "www.toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-03-05T06:18:05.539Z",
+      "size": 25
+    },
+    {
+      "Name": "ui",
+      "value": "2",
+      "domain": ".toprezervesdalas.lv",
+      "path": "/",
+      "expires": "2025-08-23T10:09:52.168Z",
+      "size": 3
+    }
+  ]
+  

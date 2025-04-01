@@ -29,6 +29,10 @@ route::get('/products', function () {
     return Inertia::render('Products/Products');
 })->name('Products');
 
+route::get('/SavedProducts', function () {
+    return Inertia::render('SavedProducts/SavedProducts');
+})->name('SavedProducts');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

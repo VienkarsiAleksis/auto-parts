@@ -1,0 +1,137 @@
+.container {
+    padding: 20px;
+}
+
+.title {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.productCard:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.productCard {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.productLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+.productImage {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.productInfo {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.productTitle {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.productWebsite {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.productPrice {
+    font-size: 1.1em;
+    color: #333;
+    margin-top: 5px;
+}
+
+.removeButton {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.removeButton:hover {
+    background-color: #ff1a1a;
+}
+
+.deleteSelectedButton {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteSelectedButton:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.deleteSelectedButton:hover:not(:disabled) {
+    background-color: #ff1a1a;
+}
+
+.alertContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.alert {
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #333;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alert-enter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.alert-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-exit-active {
+    opacity: 0;
+    transform: translateX(100%);
+}
+.checkboxContainer{
+    width: 100%;
+}

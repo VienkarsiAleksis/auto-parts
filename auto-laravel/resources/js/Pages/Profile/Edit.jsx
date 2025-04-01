@@ -9,7 +9,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <Head title="Profile" />
+            <Head title="ChikChing.lv | Profils" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">

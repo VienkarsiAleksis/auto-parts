@@ -61,7 +61,7 @@ const scrapePageResults = async (page) => {
 
             pageResults.push({ website: "Inter Cars", desc, link: `https://www.ic24.lv${link}`, price, img });
         } catch (error) {
-            console.error('Error scraping item:', error.message);
+            console.error('Error scraping item:', error.message, ' in Inter Cars');
         }
     }
 

@@ -55,8 +55,8 @@ app.get('/scrape', async (req, res) => {
             scrapeAutodoc,
             scrapeIC,
             scrapeRD24,
+            scrapeTrodo,
             scrapeTOP,
-            scrapeTrodo
         ];
 
         const successfulResults = [];

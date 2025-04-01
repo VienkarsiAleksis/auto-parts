@@ -9,13 +9,20 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "chrome-launcher": "^1.1.2",
     "cors": "^2.8.5",
-    "express": "^4.21.0",
-    "puppeteer": "^23.3.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security",
+    "node-cache": "^5.1.2",
+    "path": "^0.12.7",
+    "puppeteer": "^23.11.1",
     "puppeteer-cluster": "^0.24.0",
     "puppeteer-core": "^23.3.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-recaptcha": "^3.6.8",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "puppeteer-real-browser": "^1.4.2",
+    "winston": "^3.17.0"
   }
 }

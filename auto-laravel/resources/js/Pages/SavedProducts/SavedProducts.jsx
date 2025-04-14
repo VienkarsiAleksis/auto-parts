@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Head, usePage} from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import style from "./SavedProducts.module.scss";
 import Alert from '../Components/Alert';
 import Navbar from './Components/Navbar';
 
 const SavedProductsPage = () => {
-    const { auth, savedProducts: initialSavedProducts = [] } = usePage().props; // Get auth and initial saved products from props
+    const { auth, savedProducts: initialSavedProducts = [] } = usePage().props;
     const [savedProducts, setSavedProducts] = useState(initialSavedProducts);
     const [searchTerm, setSearchTerm] = useState('');
     const [recentSearched, setRecentSearched] = useState([]);
@@ -46,22 +46,26 @@ const SavedProductsPage = () => {
         }
     };
 
-    const handleDelete = async (productId) => {
-        event.preventDefault();
-        event.stopPropagation();
+    const handleDelete = async (productId, event) => {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         try {
             const response = await axios.delete(`/api/saved-products/${productId}`);
             if (response.status === 200) {
                 setSavedProducts(savedProducts.filter(product => product.id !== productId));
-                addAlert('Produkts tika veiksmīgi izdzēsts!', 'green');
+                addAlert('Product successfully removed!', 'green');
             }
         } catch (error) {
             console.error('Error deleting product:', error);
-            addAlert('Produkts netika izdzēsts!', 'red');
+            addAlert('Failed to remove product!', 'red');
         }
     };
 
     const handleDeleteSelected = async () => {
+        if (selectedProducts.length === 0) return;
+        
         try {
             const response = await axios.post('/api/delete-selected-products', {
                 productIds: selectedProducts,
@@ -69,11 +73,11 @@ const SavedProductsPage = () => {
             if (response.status === 200) {
                 setSavedProducts(savedProducts.filter(product => !selectedProducts.includes(product.id)));
                 setSelectedProducts([]);
-                addAlert('Atlasītie produkti tika veiksmīgi izdzēsti!', 'green');
+                addAlert('Selected products successfully removed!', 'green');
             }
         } catch (error) {
             console.error('Error deleting selected products:', error);
-            addAlert('Atlasītie produkti netika izdzēsti!', 'red');
+            addAlert('Failed to remove selected products!', 'red');
         }
     };
 
@@ -86,17 +90,23 @@ const SavedProductsPage = () => {
     };
 
     const addAlert = (message, color) => {
+        const id = Date.now();
         setAlerts((prevAlerts) => {
-            const newAlerts = [...prevAlerts, { message, color }];
+            const newAlerts = [...prevAlerts, { id, message, color }];
             if (newAlerts.length > 3) {
                 newAlerts.shift(); // Remove the oldest alert if there are more than 3
             }
             return newAlerts;
         });
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            setAlerts(current => current.filter(alert => alert.id !== id));
+        }, 5000);
     };
 
-    const handleCloseAlert = (index) => {
-        setAlerts((prevAlerts) => prevAlerts.filter((_, i) => i !== index));
+    const handleCloseAlert = (alertId) => {
+        setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== alertId));
     };
 
     useEffect(() => {
@@ -104,10 +114,8 @@ const SavedProductsPage = () => {
     }, []);
 
     const fetchRecentSearched = async () => {
-        // Check if the user is a guest
         if (!auth?.user?.name) {
-            console.log("Guest user. Skipping recent search fetch.");
-            return; // Exit if the user is a guest
+            return;
         }
 
         try {
@@ -128,10 +136,15 @@ const SavedProductsPage = () => {
 
     return (
         <>
-            <Head title="ChikChing.lv | Saglabātie produkti" />
+            <Head title="ChikChing.lv | Saved Products" />
             <div className={style.alertContainer}>
-                {alerts.map((alert, index) => (
-                    <Alert key={index} message={alert.message} onClose={() => handleCloseAlert(index)} color={alert.color} />
+                {alerts.map((alert) => (
+                    <Alert 
+                        key={alert.id} 
+                        message={alert.message} 
+                        onClose={() => handleCloseAlert(alert.id)} 
+                        color={alert.color} 
+                    />
                 ))}
             </div>
             <Navbar
@@ -142,18 +155,23 @@ const SavedProductsPage = () => {
                 recentSearched={recentSearched}
             />
             <div className={style.container}>
-                <h1 className={style.title}>Saved Products</h1>
+                <h1 className={style.title}>Saglabātie produkti</h1>
+                
                 {loading ? (
-                    <p>Loading...</p>
+                    <div className="flex justify-center my-8">
+                        <div className="loader"></div>
+                    </div>
                 ) : savedProducts.length > 0 ? (
                     <>
-                        <button
-                            className={style.deleteSelectedButton}
-                            onClick={handleDeleteSelected}
-                            disabled={selectedProducts.length === 0}
-                        >
-                            Delete Selected
-                        </button>
+                        <div className="text-right mb-6">
+                            <button
+                                className={style.deleteSelectedButton}
+                                onClick={handleDeleteSelected}
+                                disabled={selectedProducts.length === 0}
+                            >
+                                Izdzēst atlasītos ({selectedProducts.length})
+                            </button>
+                        </div>
                         <div className={style.productsGrid}>
                             {savedProducts.map(product => (
                                 <div key={product.id} className={style.productCard}>
@@ -172,21 +190,21 @@ const SavedProductsPage = () => {
                                             <p className={style.productWebsite}>{product.website}</p>
                                         </div>
                                     </a>
-                                    <div className='flex flex-col items-center m-auto mb-10 gap-2'>
-                                    <p className={style.productPrice}>{product.price} €</p>
-                                    <button
-                                        className={style.removeButton}
-                                        onClick={() => handleDelete(product.id)}
-                                    >
-                                        Remove
-                                    </button>
+                                    <div className={style.productPriceContainer}>
+                                        <p className={style.productPrice}>{product.price} €</p>
+                                        <button
+                                            className={style.removeButton}
+                                            onClick={(e) => handleDelete(product.id, e)}
+                                        >
+                                            Izdzēst
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </>
                 ) : (
-                    <p className={style.noProducts}>Tev nav saglabātu produktu.</p>
+                    <p className={style.noProducts}>Tev vēl nav saglabāts neviens produkts.</p>
                 )}
             </div>
         </>

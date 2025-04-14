@@ -1,137 +1,250 @@
+// Modern variables
+$primary-color: #3b82f6; // Blue
+$danger-color: #ef4444; // Red
+$text-primary: #1f2937;
+$text-secondary: #6b7280;
+$background-light: #f9fafb;
+$border-radius: 12px;
+$box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$transition: all 0.2s ease-in-out;
+
 .container {
-    padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .title {
-    font-size: 2em;
-    margin-bottom: 20px;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .productsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.productCard:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .productCard {
-    position: relative;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  position: relative;
+  border-radius: $border-radius;
+  background-color: white;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  transition: $transition;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.checkboxContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  
+  .checkbox {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    accent-color: $primary-color;
+  }
 }
 
 .productLink {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .productImage {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .productInfo {
-    text-align: center;
-    margin-top: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .productTitle {
-    font-size: 1.2em;
-    margin-bottom: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0;
+  // Limit to 2 lines with ellipsis
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
 }
 
 .productWebsite {
-    font-size: 0.9em;
-    color: #666;
+  font-size: 0.875rem;
+  color: $text-secondary;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  &:before {
+    content: "🔗";
+    font-size: 0.75rem;
+  }
+}
+
+.productPriceContainer {
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .productPrice {
-    font-size: 1.1em;
-    color: #333;
-    margin-top: 5px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+  text-align: center;
 }
 
 .removeButton {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.removeButton:hover {
-    background-color: #ff1a1a;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  color: $danger-color;
+  border: 1px solid $danger-color;
+  border-radius: $border-radius;
+  font-weight: 500;
+  cursor: pointer;
+  transition: $transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  
+  &:hover {
+    background-color: $danger-color;
+    color: white;
+  }
 }
 
 .deleteSelectedButton {
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    background-color: #ff4d4d;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.deleteSelectedButton:disabled {
-    background-color: #ddd;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: $danger-color;
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition;
+  display: inline-flex;
+  align-items: center;
+  
+  &:before {
+    content: "🗑️";
+    margin-right: 0.5rem;
+  }
+  
+  &:disabled {
+    background-color: #e5e7eb;
+    color: #9ca3af;
     cursor: not-allowed;
+  }
+  
+  &:hover:not(:disabled) {
+    background-color: ($danger-color, 10%);
+  }
 }
 
-.deleteSelectedButton:hover:not(:disabled) {
-    background-color: #ff1a1a;
+.noProducts {
+  text-align: center;
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin: 3rem 0;
+  padding: 2rem;
+  background-color: $background-light;
+  border-radius: $border-radius;
 }
 
+// Alert system
 .alertContainer {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
 }
 
 .alert {
-    padding: 10px 20px;
-    border-radius: 4px;
-    color: #fff;
-    background-color: #333;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+  padding: 1rem 1.5rem;
+  border-radius: $border-radius;
+  color: white;
+  box-shadow: $box-shadow;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 280px;
+  max-width: 400px;
+  
+  &.green {
+    background-color: #10b981;
+  }
+  
+  &.red {
+    background-color: $danger-color;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: 1.25rem;
+    opacity: 0.8;
+    transition: $transition;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
-.alert-enter {
-    opacity: 0;
-    transform: translateX(100%);
+// Responsive adjustments
+@media (max-width: 768px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
 }
 
-.alert-enter-active {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.alert-exit {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.alert-exit-active {
-    opacity: 0;
-    transform: translateX(100%);
-}
-.checkboxContainer{
-    width: 100%;
+@media (max-width: 480px) {
+  .productsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
 }

@@ -15,12 +15,11 @@ const ProductItem = ({ item }) => {
     const formattedPrice = item.price.includes('€') ? item.price : `${item.price} €`;
 
     const handleSaveProduct = async (event) => {
-        event.preventDefault(); // Prevent the default action of the link
-        event.stopPropagation(); // Prevent the <a> link from being triggered
+        event.preventDefault(); 
+        event.stopPropagation();
 
         setIsAnimating(true);
         
-        // Reset animation after a delay
         setTimeout(() => {
             setIsAnimating(false);
         }, 500);

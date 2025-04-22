@@ -16,7 +16,7 @@ const Navbar = ({ auth, searchTerm, handleChange, onKeyDown, recentSearched = []
     const handleBlur = () => {
         setTimeout(() => {
             setIsDropdownOpen(false);
-        }, 200); // Delay to allow click event on dropdown items
+        }, 200);
     };
 
     useEffect(() => {
@@ -52,7 +52,7 @@ const Navbar = ({ auth, searchTerm, handleChange, onKeyDown, recentSearched = []
                         icon={FaSearch}
                     />
 
-                    {/* Recent Searches Dropdown */}
+                    {/* Nesen meklētie dropdown */}
                     {isDropdownOpen && recentSearched.length > 0 && (
                         <div className={`${style.recentSearches} absolute z-10 w-full bg-white shadow-lg rounded-md mt-1`}>
                             <div className={style.recentSearchesList}>

@@ -65,7 +65,7 @@ const scrapePageResults = async (page) => {
         }
     }
 
-    return pageResults; // Return the scraped results for the current page
+    return pageResults;
 };
 
 module.exports = scrapeIC24;

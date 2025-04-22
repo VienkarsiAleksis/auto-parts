@@ -4,14 +4,13 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 const cors = require('cors');
 
-// Importing scrapers
 const scrapeAutodoc = require('./scraper/autodoc');
 const scrapeIC = require('./scraper/ic24');
 const scrapeRD24 = require('./scraper/rd24');
 const scrapeTrodo = require('./scraper/trodo');
 const scrapeTOP = require('./scraper/top');
 
-// Setting up Puppeteer plugins
+// Iestata Puppeteer spraudņus
 puppeteer.use(StealthPlugin());
 puppeteer.use(
     RecaptchaPlugin({
@@ -23,7 +22,6 @@ puppeteer.use(
     })
 );
 
-// Express application setup
 const app = express();
 const port = 6969;
 
@@ -34,7 +32,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Scraping endpoint
+// Scraping API maršruts
 app.get('/scrape', async (req, res) => {
     const searchTerm = req.query.q;
 
@@ -51,42 +49,33 @@ app.get('/scrape', async (req, res) => {
             ]
         });
 
-        const scrapers = [
-            scrapeAutodoc,
-            scrapeIC,
-            scrapeRD24,
-            scrapeTrodo,
-            scrapeTOP,
-        ];
-
+        const scrapers = [scrapeAutodoc, scrapeIC, scrapeRD24, scrapeTrodo, scrapeTOP];
         const successfulResults = [];
 
-        // Scraping each website using Promises
+        // Izpilda scraping katrai vietnei
         const scrapePromises = scrapers.map(async (scraper) => {
             const page = await browser.newPage();
             try {
                 const result = await scraper(page, searchTerm);
                 successfulResults.push(...result);
             } catch (err) {
-                console.error(`Failed to scrape: ${scraper.name}`, err.message);
+                console.error(`Neizdevās nokasīt: ${scraper.name}`, err.message);
             } finally {
                 await page.close();
             }
         });
 
-        // Wait for all scraping promises to settle
         await Promise.allSettled(scrapePromises);
-
         await browser.close();
 
         res.json(successfulResults);
     } catch (error) {
-        console.error('Error launching browser or scraping data:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Kļūda, startējot pārlūku vai nokasot datus:', error);
+        res.status(500).json({ error: 'Iekšējā servera kļūda' });
     }
 });
 
-// Start the server
+// Startē serveri
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Serveris darbojas: http://localhost:${port}`);
 });

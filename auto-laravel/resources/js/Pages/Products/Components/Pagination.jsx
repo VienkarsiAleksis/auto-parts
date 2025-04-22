@@ -2,33 +2,26 @@ import React, { useState, useEffect } from 'react';
 import style from '../Product.module.scss';
 
 const Paginator = ({ currentPage, totalPages, onPageChange }) => {
-    const [visiblePages, setVisiblePages] = useState(5); // Default number of visible pages
+    const [visiblePages, setVisiblePages] = useState(5); // Noklusējumā redzamo lapu skaits
 
-    // Use effect to handle screen width changes
     useEffect(() => {
         const handleResize = () => {
-            // Check if screen width is 600px or less
             if (window.innerWidth <= 700) {
-                setVisiblePages(2); // Set visible pages to 2
+                setVisiblePages(2); // Norāda, ka redzamo lapu skaits ir 2
             } else {
-                setVisiblePages(5); // Set back to default 5
+                setVisiblePages(5); // Norāda, ka redzamo lapu skaits ir 5
             }
         };
-
-        // Add event listener for resizing
         window.addEventListener('resize', handleResize);
-
-        // Call once to set initial value
         handleResize();
 
-        // Cleanup event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2)); // Calculate start page
-    const endPage = Math.min(totalPages, startPage + visiblePages - 1); // Calculate end page
+    const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2)); // Kalkulē sākuma lapu
+    const endPage = Math.min(totalPages, startPage + visiblePages - 1); // Kalkulē beigu lapu
 
-    // Adjust start page if we are close to the end of the total pages
+    // Pieregulējums, lai nodrošinātu, ka sākuma lapa ir vismaz 1 un beigu lapa nepārsniedz kopējo lapu skaitu
     const adjustedStartPage = Math.max(1, Math.min(startPage, totalPages - visiblePages + 1));
 
     return (

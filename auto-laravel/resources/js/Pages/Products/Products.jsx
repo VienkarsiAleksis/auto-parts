@@ -98,20 +98,20 @@ const ProductPage = ({ auth }) => {
     const applyFilters = (data) => {
         let filteredData = Array.isArray(data) ? [...data] : [];
 
-        // Exclude websites
+        // Filtrēšana pēc meklēšanas termina
         filteredData = filteredData.filter((item) => !excludedWebsites.includes(item.website));
 
-        // Determine min and max prices
+        // Nosaka cenas diapazonu
         const minPrice = filters.minPrice === '' || parseFloat(filters.minPrice) < 0 ? 0 : parseFloat(filters.minPrice);
         const maxPrice = filters.maxPrice === '' || parseFloat(filters.maxPrice) < 0 ? 999999 : parseFloat(filters.maxPrice);
 
-        // Filter by price range
+        // Filtrēšana pēc cenas
         filteredData = filteredData.filter((item) => {
             const price = parseFloat(item.price.replace(',', '.').replace('€', ''));
             return price >= minPrice && price <= maxPrice;
         });
 
-        // Sort based on sortBy criteria
+        // Kārtošana pēc izvēlētās kritērijas
         if (filters.sortBy === 'priceAsc') {
             filteredData.sort((a, b) => parseFloat(a.price.replace(',', '.').replace('€', '')) - parseFloat(b.price.replace(',', '.').replace('€', '')));
         } else if (filters.sortBy === 'priceDesc') {
@@ -142,12 +142,12 @@ const ProductPage = ({ auth }) => {
         }));
     };
 
-    // Function to exclude a website
+    // Funkcija, lai izslēgtu vietni no rezultātiem
     const handleExcludeWebsite = (website) => {
         setExcludedWebsites((prevExcluded) => [...prevExcluded, website]);
     };
 
-    // Function to return a website back to the results
+    // Funkcija, lai atgrieztu vietni atpakaļ rezultātos
     const handleReturnWebsite = (website) => {
         setExcludedWebsites((prevExcluded) => prevExcluded.filter(item => item !== website));
     };
@@ -258,7 +258,7 @@ const ProductPage = ({ auth }) => {
                                     Meklēšanas rezultāti priekš: "{submittedSearchTerm}" <span>({totalResults})</span>
                                 </p>
                                 
-                                {/* New secondary search bar */}
+                                {/* Otrais meklēšanas ievadlauks */}
                                 <div className={style.secondarySearchContainer}>
                                     <div className={style.secondarySearchInput}>
                                         <input
@@ -279,7 +279,7 @@ const ProductPage = ({ auth }) => {
                                 </div>
                             </div>
 
-                            {/* People also searched for section */}
+                            {/* "Cilvēki ari meklēja" sekcija */}
                             <div className={style.alsoSearchedSection}>
                                 <p className={style.also}>Citi meklēja arī:</p>
                                 <div className={style.mostSearchedList}>

@@ -4,8 +4,6 @@ import Dropdown from './Components/Dropdown';
 import SearchInputWelc from './Components/SearchInputWelc';
 import { FaSearch } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
-
-// Import images
 import oil from "../../assets/engine.png";
 import fuelFilter from "../../assets/fuel_filter.webp";
 import oilFilter from "../../assets/oil_filter.png";
@@ -18,24 +16,21 @@ import autodoc from "../../assets/autodco.png";
 import ic from "../../assets/ic.webp";
 import bmw from "../../assets/bmw.png";
 import subaru from "../../assets/subaru.png";
+import PuppeteerExplanation from './Components/PuppeteerExplanation';
 
 export default function Welcome({ auth }) {
     const [part, setPart] = useState('');
     const [isMobile, setIsMobile] = useState(false);
 
-    // Check screen size on mount and when it changes
+    // Parbauda ekrāna izmēru un iestata isMobile stāvokli
     useEffect(() => {
         const checkScreenSize = () => {
             setIsMobile(window.innerWidth < 768);
         };
         
-        // Initial check
         checkScreenSize();
-        
-        // Add event listener
+
         window.addEventListener('resize', checkScreenSize);
-        
-        // Cleanup
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
@@ -56,7 +51,7 @@ export default function Welcome({ auth }) {
         router.visit(`/products?search=${selectedPart}`);
     };
 
-    // Popular parts data for easier management
+    // Populārākās detaļas
     const popularParts = [
         { id: 1, name: 'Motoreļļa', image: oil, searchTerm: 'motoreļļa' },
         { id: 2, name: 'Degvielas filtrs', image: fuelFilter, searchTerm: 'degvielas filtrs' },
@@ -71,13 +66,11 @@ export default function Welcome({ auth }) {
         <>
             <Head title="ChikChing.lv | Auto Detaļu Meklētājs" />
             <div className="background relative flex flex-col min-h-screen bg-center bg-cover">
-                {/* Background images - only visible on larger screens */}
                 <div className="hidden lg:block">
                     <img className='absolute right-car' src={bmw} alt="BMW" />
                     <img className='absolute left-car' src={subaru} alt="Subaru" />
                 </div>
                 
-                {/* Navigation bar */}
                 <nav className="navbar fixed top-0 z-50 w-full py-4 px-4 md:px-8 lg:px-20 bg-white flex items-center justify-between shadow-md">
                     <div className='text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 logo'>
                         ChikChing.lv
@@ -141,8 +134,6 @@ export default function Welcome({ auth }) {
                         )}
                     </div>
                 </nav>
-                
-                {/* Hero section */}
                 <div className='main-content flex flex-col justify-center items-center text-center mt-32 md:mt-40 lg:mt-56 px-4 md:px-8'>
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-800 mb-4 md:mb-6 slogan">
                         VISAS DETAĻAS. VIENĀ MEKLĒJUMĀ
@@ -158,8 +149,6 @@ export default function Welcome({ auth }) {
                         <img src={ic} alt="Inter-Cars" className='w-20 sm:w-24 md:w-28 lg:w-36 h-auto img' />
                     </div>
                 </div>
-                
-                {/* Search section */}
                 <div className='w-full flex flex-col items-center px-4 md:px-8 lg:px-20'>
                     <div className="w-full max-w-4xl">
                         <SearchInputWelc
@@ -178,7 +167,6 @@ export default function Welcome({ auth }) {
                         />
                     </div>
                     
-                    {/* Popular parts shortcuts */}
                     <div className='mb-12 md:mt-4 w-full max-w-5xl bg-white rounded-lg md:rounded-2xl shadow-md py-6 md:py-8 px-2 md:px-4'>
                         <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 text-center">Populārākās detaļas</h2>
                         <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3 md:gap-4 justify-items-center'>
@@ -194,6 +182,7 @@ export default function Welcome({ auth }) {
                             ))}
                         </div>
                     </div>
+                    <PuppeteerExplanation />
                 </div>
             </div>
 

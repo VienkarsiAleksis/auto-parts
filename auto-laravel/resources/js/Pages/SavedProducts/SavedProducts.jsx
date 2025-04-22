@@ -94,12 +94,12 @@ const SavedProductsPage = () => {
         setAlerts((prevAlerts) => {
             const newAlerts = [...prevAlerts, { id, message, color }];
             if (newAlerts.length > 3) {
-                newAlerts.shift(); // Remove the oldest alert if there are more than 3
+                newAlerts.shift(); // Noņem pirmo elementu, ja ir vairāk par 3
             }
             return newAlerts;
         });
         
-        // Auto remove after 5 seconds
+        // Automātiski izdzēš alert pēc 5 sekundēm
         setTimeout(() => {
             setAlerts(current => current.filter(alert => alert.id !== id));
         }, 5000);

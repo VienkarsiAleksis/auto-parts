@@ -55,11 +55,11 @@ const SavedProductsPage = () => {
             const response = await axios.delete(`/api/saved-products/${productId}`);
             if (response.status === 200) {
                 setSavedProducts(savedProducts.filter(product => product.id !== productId));
-                addAlert('Product successfully removed!', 'green');
+                addAlert('Produkts veiksmīgi izdzēsts!', 'green');
             }
         } catch (error) {
             console.error('Error deleting product:', error);
-            addAlert('Failed to remove product!', 'red');
+            addAlert('Neizdevās izdzēst produktu!', 'red');
         }
     };
 
@@ -73,11 +73,11 @@ const SavedProductsPage = () => {
             if (response.status === 200) {
                 setSavedProducts(savedProducts.filter(product => !selectedProducts.includes(product.id)));
                 setSelectedProducts([]);
-                addAlert('Selected products successfully removed!', 'green');
+                addAlert('Izvēlētie produkti veiksmīgi izdzēsti!', 'green');
             }
         } catch (error) {
             console.error('Error deleting selected products:', error);
-            addAlert('Failed to remove selected products!', 'red');
+            addAlert('Neizdevās izdzēst izvēlētos produktus!', 'red');
         }
     };
 
